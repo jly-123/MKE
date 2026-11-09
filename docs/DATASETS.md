@@ -1,74 +1,75 @@
-# Molecular datasets
+# Datasets and checkpoints
 
-The six dataset configurations use a common CSV reader and molecular graph builder. Dataset names are case-sensitive because they select both a configuration and a checkpoint directory.
+Six experiment CSVs are included in `data/origin_data/`, with historical best GCN weights at `checkpoints/<dataset>/gcn_3l_best.pth`. Dataset keys are case-sensitive.
 
-| Configuration (`datasets=...`) | CSV filename | Default binary label column | Checkpoint directory |
-| --- | --- | --- | --- |
-| `Mutagenicity` | `Mutagenicity.csv` | `Mutagenicity` | `checkpoints/Mutagenicity/` |
-| `bbbp` | `BBBP.csv` | `BBBP` | `checkpoints/bbbp/` |
-| `hERG` | `hERG.csv` | `hERG` | `checkpoints/hERG/` |
-| `Tox21_AhR` | `Tox21_AhR.csv` | `AhR` | `checkpoints/Tox21_AhR/` |
-| `Bace` | `Bace.csv` | `Bace` | `checkpoints/Bace/` |
-| `clintox` | `clintox.csv` | `CT_TOX` | `checkpoints/clintox/` |
+| Dataset key | CSV | Label column |
+| --- | --- | --- |
+| `Mutagenicity` | `Mutagenicity.csv` | `Mutagenicity` |
+| `bbbp` | `BBBP.csv` | `BBBP` |
+| `hERG` | `hERG.csv` | `hERG` |
+| `Tox21_AhR` | `Tox21_AhR.csv` | `AhR` |
+| `Bace` | `Bace.csv` | `Bace` |
+| `clintox` | `clintox.csv` | `CT_TOX` |
 
-Place the CSVs in `data/origin_data/`, or set `datasets.dataset_root` to another directory. `input_csv` selects a single explicit file and takes precedence over the configured directory and filename.
+## Input format
+
+Each CSV requires a nonempty `smiles`, the selected binary label (`0` or `1`), and `group` values `training`, `valid`, or `test`. The checker validates columns, row structure, both classes and all three splits:
 
 ```bash
-python mke_new.py datasets=bbbp device_id=0
-python mke_new.py datasets=Bace input_csv=/absolute/path/Bace.csv device_id=0
+python scripts/check_inputs.py --dataset Mutagenicity
 ```
 
-## CSV contract
+The loader preserves stored splits and CSV order. `datasets.seed` does not regenerate splits. To use an external CSV or weight directory:
 
-Each file must contain:
+```bash
+python mke_new.py datasets=Bace input_csv=/path/to/Bace.csv models.gnn_saving_dir=/path/to/checkpoints
+```
 
-- `smiles`: a nonempty SMILES string for each molecule.
-- `group`: exactly `training`, `valid`, or `test`.
-- The configured label column: finite binary values `0` or `1`.
-
-Additional columns are allowed. All three splits and both label values must be present in the full input. Missing columns, duplicate column names, malformed rows, missing labels, and unknown split names fail validation before graph construction. The validator reports the file SHA-256, row count, split counts, and class counts.
-
-Splits come directly from `group`; the program does not shuffle or regenerate the supplied split. In particular, `datasets.seed` does not change these assignments. Preserve the original CSV row order when repeating a run: the processed dataset index also determines the graph's Monte Carlo seed.
+`input_csv` takes precedence over `datasets.dataset_root`. The checkpoint root is the parent of the dataset directory.
 
 ## Graph representation
 
-RDKit parses each SMILES in input order. The nine atom features are the categorical indices of atomic number, chirality, total degree, formal charge, total hydrogen count, radical electron count, hybridization, aromaticity, and ring membership, using the fixed maps in `mke_support/data.py`. They are converted to floating-point inputs for the GCN; they are not one-hot encodings.
+RDKit builds nine categorical atom features: atomic number, chirality, degree, formal charge, hydrogen count, radical electrons, hybridization, aromaticity and ring membership. They are passed to the GCN as floating-point categorical indices. Bonds produce two directed edges; bond features are recorded but not consumed by this GCN.
 
-Each bond becomes two directed edges. The builder also records bond type, stereochemistry, and conjugation as three categorical bond features. Edges are sorted by source and destination. The GCN used here receives atom features, edge indices, and graph assignments; its forward call does not consume `edge_attr`.
+Unparseable SMILES are skipped. Run metadata records raw rows, valid graphs and skipped rows. `sample_index` is the zero-based index among valid graphs across the full CSV. Unsupported feature values raise an error. Graph caches are written under `data/processed/`; use the sequential runner to avoid concurrent writes to the same cache.
 
-Unparseable SMILES are skipped by the graph builder. The saved metadata therefore distinguishes raw CSV rows from valid graphs and reports the number skipped. `sample_index` is the zero-based index among valid graphs across the entire CSV, not a test-only index or an unconditional original CSV row number. Chemical feature values outside the fixed feature maps raise an error rather than being silently remapped.
+## Known data issues
 
-The generated graph cache is stored under `data/processed/`. It is rebuilt from the selected CSV by the current entry. Do not run multiple jobs writing the same cache or cumulative workbook simultaneously from one checkout; use separate working copies or sequential runs.
+The included files retain original bytes, labels, row order and historical splits. These counts describe these CSVs before molecular parsing.
 
-## ClinTox endpoint
+| Dataset | Rows | Training | Validation | Test | Exact SMILES shared by training and test |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Mutagenicity | 7,672 | 6,137 | 767 | 768 | 0 |
+| BBBP | 1,859 | 1,487 | 185 | 187 | 0 |
+| hERG | 9,876 | 7,900 | 987 | 989 | 0 |
+| Tox21 AhR | 8,166 | 6,533 | 817 | 816 | 221 |
+| BACE | 1,513 | 1,265 | 44 | 204 | 0 |
+| ClinTox | 1,491 | 1,192 | 149 | 150 | 1 |
 
-The local ClinTox CSV contains both `FDA_APPROVED` and `CT_TOX`. The default `CT_TOX` follows the existing controlled dataset interfaces used to prepare this release. It is one binary endpoint, not a two-task ClinTox model.
+- Tox21 AhR has 6,713 unique exact SMILES and 1,453 duplicate rows. There are 467 SMILES in multiple splits: 223 overlap training/validation, 221 training/test, and 41 validation/test. Pairwise counts overlap and cannot be added. For 44 SMILES, both AhR labels occur.
+- ClinTox has seven duplicate rows by exact SMILES and one training/test overlap, with no conflicting `CT_TOX` labels for identical strings.
+- The other four CSVs have no repeated exact SMILES. BACE's validation set has 44 rows; its stored split is preserved.
 
-A checkpoint's filename or tensor dimensions do not establish which endpoint it was trained on. The inspected historical checkpoint does not record its label-column provenance. Use the training records associated with your checkpoint to establish that pairing. To use `FDA_APPROVED`, provide a checkpoint trained on that endpoint and select it explicitly:
+Comparison strips surrounding whitespace only; it does not canonicalize molecules or check scaffolds. Zero exact-string overlap does not establish molecular independence. For a new benchmark, review conflicting records, split by standardized molecular identity, and retrain the predictor. Preserve the historical version when reproducing its original protocol.
+
+中文：Tox21_AhR 有 221 个训练/测试重复 SMILES，44 个 SMILES 对应冲突标签；ClinTox 有 1 个训练/测试重复。现有文件保留历史划分，新实验应先核对并清理数据，再重新划分和训练。
+
+## Checkpoints and ClinTox endpoint
+
+Checkpoints contain a `net` state dictionary. BBBP uses three GCN layers of width 128; other datasets use width 256. All configurations use nine input features, two output classes and max pooling; see [model configuration](CONFIGURATION.md).
+
+Historical checkpoint hashes and sizes were verified, but their original training input hashes and label endpoints are not established by the supplied records. Filenames and output dimensions do not establish task provenance. Load only trusted checkpoint files.
+
+ClinTox contains `FDA_APPROVED` and `CT_TOX`; the default configuration selects `CT_TOX`. Confirm the checkpoint's training endpoint independently, or train a new model on the intended task. To select `FDA_APPROVED` with matching weights:
 
 ```bash
-python mke_new.py datasets=clintox datasets.label_column=FDA_APPROVED models.gnn_saving_dir=/absolute/path/fda_checkpoints device_id=0
+python mke_new.py datasets=clintox datasets.label_column=FDA_APPROVED models.gnn_saving_dir=/path/to/fda_checkpoints
 ```
 
-The directory must contain `clintox/gcn_3l_best.pth`. Changing the label-column option alone does not retrain or change the checkpoint. New runs of `train_gcn.py` save the chosen endpoint and input-file hash in `training_inputs.json`.
+Changing the label option does not retrain the checkpoint. New training writes `training_inputs.json` and `training_config.yaml`, recording the endpoint and CSV hash; see [training](EXPERIMENTS.md#predictor-training).
 
-## Inspected local input sizes
+## File identity and validation
 
-These are raw row counts from the local CSVs inspected during release preparation. They describe those files, not universal sizes for every public version of each dataset. Runtime graph counts may be smaller if SMILES parsing fails.
+[`input_manifest.json`](../data/input_manifest.json) records CSV hashes, sizes, labels, counts and duplicate statistics. [`checkpoint_manifest.json`](../checkpoints/checkpoint_manifest.json) records weight hashes, sizes and provenance limits. [`FILES_SHA256.txt`](../FILES_SHA256.txt) covers source and documentation; it excludes CSV and weight payloads.
 
-| CSV | Rows | Training | Validation | Test |
-| --- | ---: | ---: | ---: | ---: |
-| `Mutagenicity.csv` | 7,672 | 6,137 | 767 | 768 |
-| `BBBP.csv` | 1,859 | 1,487 | 185 | 187 |
-| `hERG.csv` | 9,876 | 7,900 | 987 | 989 |
-| `Tox21_AhR.csv` | 8,166 | 6,533 | 817 | 816 |
-| `Bace.csv` | 1,513 | 1,265 | 44 | 204 |
-| `clintox.csv` | 1,491 | 1,192 | 149 | 150 |
-
-BACE's observed split is deliberately reported as stored; it is not replaced by an assumed 80/10/10 split. Save the input hashes with experiment results to identify the exact version used.
-
-See [configuration](CONFIGURATION.md), [checkpoint preparation](../checkpoints/README.md), and [output fields](OUTPUTS.md).
-
-## Included historical files and known overlaps
-
-The six CSVs are now included. See [DATA_VALIDATION.md](DATA_VALIDATION.md) and [`input_manifest.json`](../data/input_manifest.json) for exact input hashes and split/label issues, including Tox21 AhR and ClinTox overlaps. These files preserve historical splits; they are not a newly cleaned benchmark.
+All six CSVs pass schema checks and all six checkpoint files exist. The source has 52 passing lightweight tests. Full molecular parsing, checkpoint loading, training and GPU evaluation have not been verified in the publication environment; run the [environment smoke check](INSTALLATION.md) and predictor evaluation in a compatible ML environment.

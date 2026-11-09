@@ -80,5 +80,5 @@ def resolve_input_csv(config, package_root):
     if not os.path.isabs(path):
         path = os.path.join(package_root, path)
     if not os.path.isfile(path):
-        raise FileNotFoundError("Required molecular CSV not found: {}. See data/README.md".format(path))
+        raise FileNotFoundError("Required molecular CSV not found: {}. See docs/DATASETS.md".format(path))
     return path
