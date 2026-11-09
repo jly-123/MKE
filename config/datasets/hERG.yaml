@@ -1,0 +1,5 @@
+dataset_root: data/origin_data
+dataset_name: hERG
+csv_filename: hERG.csv
+label_column: hERG
+seed: 2

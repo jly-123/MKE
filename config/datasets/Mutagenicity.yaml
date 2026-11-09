@@ -1,0 +1,5 @@
+dataset_root: data/origin_data
+dataset_name: Mutagenicity
+csv_filename: Mutagenicity.csv
+label_column: Mutagenicity
+seed: 2

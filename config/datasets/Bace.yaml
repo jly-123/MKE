@@ -1,0 +1,5 @@
+dataset_root: data/origin_data
+dataset_name: Bace
+csv_filename: Bace.csv
+label_column: Bace
+seed: 2

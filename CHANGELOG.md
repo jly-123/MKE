@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026.11.09
+
+- Restore all support, configuration, script, documentation, test and CI directories omitted from the initial upload.
+- Include six original experiment CSVs and six historical best GCN checkpoints with SHA-256 manifests.
+- Document exact-SMILES split overlaps, AhR label conflicts and historical checkpoint provenance limits.
+- Normalize source text to LF while preserving original CSV and checkpoint bytes.
+
 ## 2026.10.18
 
 - Standalone MKE entry with merged-player Shapley group values and greedy selection under a distinct-node budget.

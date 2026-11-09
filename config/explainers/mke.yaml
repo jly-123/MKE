@@ -1,0 +1,20 @@
+explanation_result_dir: results
+param:
+  Mutagenicity:
+    reward_method: group_shapley
+    subgraph_building_method: split
+  bbbp:
+    reward_method: group_shapley
+    subgraph_building_method: split
+  hERG:
+    reward_method: group_shapley
+    subgraph_building_method: split
+  Tox21_AhR:
+    reward_method: group_shapley
+    subgraph_building_method: split
+  Bace:
+    reward_method: group_shapley
+    subgraph_building_method: split
+  clintox:
+    reward_method: group_shapley
+    subgraph_building_method: split

@@ -1,0 +1,68 @@
+{
+  "publication_date": "2026-11-09",
+  "scope": "Historical local best checkpoints; hashes and presence verified without loading weights or rerunning models.",
+  "historical_training_records_included": false,
+  "checkpoints": [
+    {
+      "dataset": "Mutagenicity",
+      "path": "checkpoints/Mutagenicity/gcn_3l_best.pth",
+      "bytes": 1076306,
+      "sha256": "dd40f107fda00425a78aaf6b02c59c94f04d491f234997defd7e008116b07c9f",
+      "role": "historical best GCN checkpoint",
+      "runtime_loading_validated": false,
+      "training_label_column_provenance": "not established from supplied historical training records",
+      "configured_label_column": "Mutagenicity"
+    },
+    {
+      "dataset": "bbbp",
+      "path": "checkpoints/bbbp/gcn_3l_best.pth",
+      "bytes": 278034,
+      "sha256": "c17058b3f46a499e542047986892e9e3d6effda4a5e87d095779f0588fa80b24",
+      "role": "historical best GCN checkpoint",
+      "runtime_loading_validated": false,
+      "training_label_column_provenance": "not established from supplied historical training records",
+      "configured_label_column": "BBBP"
+    },
+    {
+      "dataset": "hERG",
+      "path": "checkpoints/hERG/gcn_3l_best.pth",
+      "bytes": 1076306,
+      "sha256": "fbd485462660150fe09c730bcd2fee3127b4d65073f4c521d38180bcadf7d0a0",
+      "role": "historical best GCN checkpoint",
+      "runtime_loading_validated": false,
+      "training_label_column_provenance": "not established from supplied historical training records",
+      "configured_label_column": "hERG"
+    },
+    {
+      "dataset": "Tox21_AhR",
+      "path": "checkpoints/Tox21_AhR/gcn_3l_best.pth",
+      "bytes": 1076306,
+      "sha256": "def0e89a5502920dc44b142530b4912a6bbf867b021be21dc94a4afbba96d107",
+      "role": "historical best GCN checkpoint",
+      "runtime_loading_validated": false,
+      "training_label_column_provenance": "not established from supplied historical training records",
+      "configured_label_column": "AhR"
+    },
+    {
+      "dataset": "Bace",
+      "path": "checkpoints/Bace/gcn_3l_best.pth",
+      "bytes": 1076306,
+      "sha256": "77f34cbbe281901f7af5abd093b102d6e7ac0ecccac23a908fd509b12a77c6f1",
+      "role": "historical best GCN checkpoint",
+      "runtime_loading_validated": false,
+      "training_label_column_provenance": "not established from supplied historical training records",
+      "configured_label_column": "Bace"
+    },
+    {
+      "dataset": "clintox",
+      "path": "checkpoints/clintox/gcn_3l_best.pth",
+      "bytes": 1076306,
+      "sha256": "c116227ffb133ffa061d24e617d952bbdd6875f9aa27a4ad68f1a2d9cdda0752",
+      "role": "historical best GCN checkpoint",
+      "runtime_loading_validated": false,
+      "training_label_column_provenance": "not established from supplied historical training records",
+      "configured_label_column": "CT_TOX",
+      "endpoint_caution": "The configured endpoint is CT_TOX. Historical training endpoint is unverified; FDA_APPROVED and CT_TOX have the same output shape. Configuration is not proof of checkpoint provenance."
+    }
+  ]
+}

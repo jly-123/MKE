@@ -1,5 +1,17 @@
 # Release validation
 
+## Publication update: 2026-11-09
+
+The omitted source subdirectories have been restored, and six historical CSVs
+and six best GCN checkpoints are now included. Source text is normalized to LF;
+CSV and checkpoint bytes are preserved. The 52 lightweight tests, six CSV input
+checks, source checks and regenerated source manifest pass. Artifact hashes and
+known data/checkpoint limitations are documented in
+[DATA_VALIDATION.md](docs/DATA_VALIDATION.md). This update does not include a
+model or GPU validation run.
+
+## Original archive checks
+
 The following lightweight checks were performed locally for this source archive:
 
 - 21 group-value and adapter tests, including comparison with an independent merged-player permutation oracle.

@@ -1,0 +1,32 @@
+{
+  "Mutagenicity": {
+    "csv_filename": "Mutagenicity.csv",
+    "label_column": "Mutagenicity",
+    "display_name": "Mutagenicity"
+  },
+  "bbbp": {
+    "csv_filename": "BBBP.csv",
+    "label_column": "BBBP",
+    "display_name": "BBBP"
+  },
+  "hERG": {
+    "csv_filename": "hERG.csv",
+    "label_column": "hERG",
+    "display_name": "hERG"
+  },
+  "Tox21_AhR": {
+    "csv_filename": "Tox21_AhR.csv",
+    "label_column": "AhR",
+    "display_name": "Tox21 AhR"
+  },
+  "Bace": {
+    "csv_filename": "Bace.csv",
+    "label_column": "Bace",
+    "display_name": "BACE"
+  },
+  "clintox": {
+    "csv_filename": "clintox.csv",
+    "label_column": "CT_TOX",
+    "display_name": "ClinTox"
+  }
+}

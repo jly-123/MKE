@@ -33,3 +33,17 @@ environment-report.json
 *.egg-info/
 build/
 dist/
+
+# Published historical experiment inputs and best GCN checkpoints.
+!data/origin_data/Mutagenicity.csv
+!data/origin_data/BBBP.csv
+!data/origin_data/hERG.csv
+!data/origin_data/Tox21_AhR.csv
+!data/origin_data/Bace.csv
+!data/origin_data/clintox.csv
+!checkpoints/Mutagenicity/gcn_3l_best.pth
+!checkpoints/bbbp/gcn_3l_best.pth
+!checkpoints/hERG/gcn_3l_best.pth
+!checkpoints/Tox21_AhR/gcn_3l_best.pth
+!checkpoints/Bace/gcn_3l_best.pth
+!checkpoints/clintox/gcn_3l_best.pth

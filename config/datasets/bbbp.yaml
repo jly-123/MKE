@@ -1,0 +1,5 @@
+dataset_root: data/origin_data
+dataset_name: bbbp
+csv_filename: BBBP.csv
+label_column: BBBP
+seed: 2

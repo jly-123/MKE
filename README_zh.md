@@ -6,7 +6,7 @@
 
 MKE 构建多粒度分子子结构候选，用 **Shapley group value** 评价候选组合，在节点并集预算下进行贪心选择。每一步比较加入候选后的组价值增量，选择可行候选中最大的正增益；完整保留选中的候选，重叠节点在预算中只计算一次。
 
-仓库包含方法源码、图数据构建、GCN、训练与独立预测评估、六数据集配置、批量实验、结果汇总、绘图和测试。数据及权重按下面的目录另行准备。
+仓库包含方法源码、图数据构建、GCN、训练与独立预测评估、六数据集配置、批量实验、结果汇总、绘图和测试。现已附带六份历史实验 CSV 和六个最佳 GCN 检查点。已知的划分重叠、标签冲突和历史权重来源限制见[数据检查说明](docs/DATA_VALIDATION.md)。
 
 ## 文件说明
 
@@ -35,7 +35,7 @@ python scripts/check_environment.py --smoke --output environment-report.json
 python -m pip freeze > environment-server.txt
 ```
 
-默认输入路径：
+随仓库提供的默认输入路径：
 
 ```text
 data/origin_data/Mutagenicity.csv

@@ -1,0 +1,5 @@
+dataset_root: data/origin_data
+dataset_name: clintox
+csv_filename: clintox.csv
+label_column: CT_TOX
+seed: 2

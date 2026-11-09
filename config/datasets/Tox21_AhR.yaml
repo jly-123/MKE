@@ -1,0 +1,5 @@
+dataset_root: data/origin_data
+dataset_name: Tox21_AhR
+csv_filename: Tox21_AhR.csv
+label_column: AhR
+seed: 2

@@ -5,5 +5,7 @@
 *.yml text eol=lf
 *.json text eol=lf
 *.txt text eol=lf
-*.csv text eol=lf
+*.csv -text
 LICENSE text eol=lf
+*.pth binary
+*.pt binary

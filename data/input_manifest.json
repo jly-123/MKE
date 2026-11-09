@@ -1,0 +1,163 @@
+{
+  "publication_date": "2026-11-09",
+  "version": "historical-experiment-inputs",
+  "scope": "Original CSV bytes and split assignments; no molecular canonicalization or cleaning performed.",
+  "datasets": [
+    {
+      "dataset": "Mutagenicity",
+      "path": "data/origin_data/Mutagenicity.csv",
+      "label_column": "Mutagenicity",
+      "bytes": 330023,
+      "sha256": "fde39b376bbc827ab7e4df4ddb88558a44c83f8e0f7de4235af6c6b0b3dad12c",
+      "rows": 7672,
+      "splits": {
+        "training": 6137,
+        "valid": 767,
+        "test": 768
+      },
+      "classes": {
+        "1": 4309,
+        "0": 3363
+      },
+      "unique_exact_smiles": 7672,
+      "duplicate_exact_smiles_rows": 0,
+      "exact_smiles_in_multiple_splits": 0,
+      "exact_smiles_split_overlap": {
+        "training__valid": 0,
+        "training__test": 0,
+        "valid__test": 0
+      },
+      "exact_smiles_with_conflicting_labels": 0
+    },
+    {
+      "dataset": "bbbp",
+      "path": "data/origin_data/BBBP.csv",
+      "label_column": "BBBP",
+      "bytes": 111573,
+      "sha256": "19076290bd5ec48713eef31c54161a938dbbdfbfc2bb135ea8198c98072fbac6",
+      "rows": 1859,
+      "splits": {
+        "training": 1487,
+        "test": 187,
+        "valid": 185
+      },
+      "classes": {
+        "1": 1433,
+        "0": 426
+      },
+      "unique_exact_smiles": 1859,
+      "duplicate_exact_smiles_rows": 0,
+      "exact_smiles_in_multiple_splits": 0,
+      "exact_smiles_split_overlap": {
+        "training__valid": 0,
+        "training__test": 0,
+        "valid__test": 0
+      },
+      "exact_smiles_with_conflicting_labels": 0
+    },
+    {
+      "dataset": "hERG",
+      "path": "data/origin_data/hERG.csv",
+      "label_column": "hERG",
+      "bytes": 674824,
+      "sha256": "83c6623094409131111ed61b85580491872622717d61cbdf41eaa2c7b6cc5093",
+      "rows": 9876,
+      "splits": {
+        "test": 989,
+        "training": 7900,
+        "valid": 987
+      },
+      "classes": {
+        "0": 4786,
+        "1": 5090
+      },
+      "unique_exact_smiles": 9876,
+      "duplicate_exact_smiles_rows": 0,
+      "exact_smiles_in_multiple_splits": 0,
+      "exact_smiles_split_overlap": {
+        "training__valid": 0,
+        "training__test": 0,
+        "valid__test": 0
+      },
+      "exact_smiles_with_conflicting_labels": 0
+    },
+    {
+      "dataset": "Tox21_AhR",
+      "path": "data/origin_data/Tox21_AhR.csv",
+      "label_column": "AhR",
+      "bytes": 417486,
+      "sha256": "ed7aae32952fa67d97bf165ca5afe22a26b3f1fd6cf2f4a38f02f6705feb33b4",
+      "rows": 8166,
+      "splits": {
+        "training": 6533,
+        "valid": 817,
+        "test": 816
+      },
+      "classes": {
+        "0": 7216,
+        "1": 950
+      },
+      "unique_exact_smiles": 6713,
+      "duplicate_exact_smiles_rows": 1453,
+      "exact_smiles_in_multiple_splits": 467,
+      "exact_smiles_split_overlap": {
+        "training__valid": 223,
+        "training__test": 221,
+        "valid__test": 41
+      },
+      "exact_smiles_with_conflicting_labels": 44
+    },
+    {
+      "dataset": "Bace",
+      "path": "data/origin_data/Bace.csv",
+      "label_column": "Bace",
+      "bytes": 131479,
+      "sha256": "59d743c7f2dddd98ee39689e5264db6271a3194f61635cb1b70a13ec21d9fe6e",
+      "rows": 1513,
+      "splits": {
+        "test": 204,
+        "valid": 44,
+        "training": 1265
+      },
+      "classes": {
+        "1": 691,
+        "0": 822
+      },
+      "unique_exact_smiles": 1513,
+      "duplicate_exact_smiles_rows": 0,
+      "exact_smiles_in_multiple_splits": 0,
+      "exact_smiles_split_overlap": {
+        "training__valid": 0,
+        "training__test": 0,
+        "valid__test": 0
+      },
+      "exact_smiles_with_conflicting_labels": 0
+    },
+    {
+      "dataset": "clintox",
+      "path": "data/origin_data/clintox.csv",
+      "label_column": "CT_TOX",
+      "bytes": 108243,
+      "sha256": "f9a874bdfcccab1b39b1d8d1dfe37c817c2bf6a2844d1149371d00b659dde545",
+      "rows": 1491,
+      "splits": {
+        "training": 1192,
+        "valid": 149,
+        "test": 150
+      },
+      "classes": {
+        "0": 1379,
+        "1": 112
+      },
+      "unique_exact_smiles": 1484,
+      "duplicate_exact_smiles_rows": 7,
+      "exact_smiles_in_multiple_splits": 1,
+      "exact_smiles_split_overlap": {
+        "training__valid": 0,
+        "training__test": 1,
+        "valid__test": 0
+      },
+      "exact_smiles_with_conflicting_labels": 0
+    }
+  ]
+}

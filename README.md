@@ -6,7 +6,7 @@
 
 MKE constructs molecular substructure candidates and selects combinations to explain a fixed graph classifier. Selection maximizes positive marginal gains in the **Shapley group value**, subject to a budget on the union of distinct selected nodes. Selected candidates remain intact; overlapping atoms are counted once in the node budget.
 
-This repository contains the MKE method, GCN and molecular data utilities, predictor training/evaluation, experiment automation, result analysis, and tests. Data and trained weights are supplied separately.
+This repository contains the MKE method, GCN and molecular data utilities, predictor training/evaluation, experiment automation, result analysis, and tests. Six historical experiment CSVs and six best GCN checkpoints are included. See [data validation](docs/DATA_VALIDATION.md) for known split overlaps, label conflicts and checkpoint provenance limits.
 
 ## Repository contents
 
@@ -25,7 +25,7 @@ This repository contains the MKE method, GCN and molecular data utilities, predi
 | `scripts/render_explanations.py` | Molecular explanation drawings |
 | `scripts/verify_repository.py` | Source, configuration and checksum checks |
 | `test_mke_new_group_shapley.py`, `tests/` | Mathematical and experiment-tool tests |
-| `data/`, `checkpoints/` | Input instructions and expected directory layouts |
+| `data/`, `checkpoints/` | Six CSV inputs, six historical best GCN checkpoints, manifests and instructions |
 | `docs/`, `.github/` | Detailed guides, lightweight CI and contribution templates |
 
 ## Quick start
@@ -36,7 +36,7 @@ Use the environment associated with the project's GCN. The model uses legacy PyG
 python scripts/check_environment.py --smoke
 ```
 
-Place the default inputs at:
+The included default inputs are at:
 
 ```text
 data/origin_data/Mutagenicity.csv
